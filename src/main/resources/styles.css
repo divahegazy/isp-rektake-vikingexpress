@@ -1,0 +1,153 @@
+/* --- General Application Styles --- */
+.root {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+
+    font-size: 14px;
+    -fx-font-size: 14px;
+
+    color: #2C3E50;
+    -fx-text-fill: #2C3E50;
+
+    background-color: #ECF0F1;
+    -fx-background-color: #ECF0F1;
+}
+
+/* --- Label Styles --- */
+.label {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+
+    font-size: 14px;
+    -fx-font-size: 14px;
+
+    color: #2C3E50;
+    -fx-text-fill: #2C3E50;
+
+    padding: 5px 10px;
+    -fx-padding: 5 10;
+}
+
+/* --- Button Styles --- */
+.button {
+    padding: 5px 15px;
+    -fx-padding: 5 15;
+
+    background-color: #3498DB;
+    -fx-background-color: #3498DB;
+
+    color: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+
+    border-radius: 5px;
+    -fx-border-radius: 5;
+
+    font-weight: bold;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    background-color: #2980B9;
+    -fx-background-color: #2980B9;
+}
+
+/* --- TextField, ComboBox, TextArea Styles --- */
+.text-field, .combo-box, .text-area {
+    padding: 5px;
+    -fx-padding: 5;
+
+    background-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+
+    border-color: #2C3E50;
+    -fx-border-color: #2C3E50;
+}
+
+/* --- TabPane Styles --- */
+.tab-pane {
+    padding: 10px;
+    -fx-padding: 10;
+
+    background-color: #ECF0F1;
+    -fx-background-color: #ECF0F1;
+}
+
+/* --- TableView Styles --- */
+.table-view {
+    padding: 5px;
+    -fx-padding: 5;
+
+    background-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+
+    border-color: #2C3E50;
+    -fx-border-color: #2C3E50;
+}
+
+.table-view .column-header-background {
+    background-color: #3498DB;
+    -fx-background-color: #3498DB;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF;      /* Fixed the property here */
+}
+
+/* --- Table Row Hover Effect --- */
+.table-view .table-row-cell:filled:hover {
+    background-color: #E0F7FA;
+    -fx-background-color: #E0F7FA;
+}
+
+/* --- Additional Styles for Form Elements --- */
+.form-label {
+    padding: 3px;
+    -fx-padding: 3;
+}
+
+.form-input {
+    padding: 5px;
+    -fx-padding: 5;
+
+    background-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+
+    border-color: #2C3E50;
+    -fx-border-color: #2C3E50;
+}
+
+.form-button {
+    padding: 5px 10px;
+    -fx-padding: 5 10;
+
+    background-color: #3498DB;
+    -fx-background-color: #3498DB;
+
+    color: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.form-button:hover {
+    background-color: #2980B9;
+    -fx-background-color: #2980B9;
+}
+
+/* --- Status Bar Styles --- */
+.hbox {
+    padding: 5px;
+    -fx-padding: 5;
+
+    background-color: #2C3E50;
+    -fx-background-color: #2C3E50;
+}
+
+.status-bar .label {
+    padding: 3px;
+    -fx-padding: 3;
+
+    color: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+
+    font-weight: bold;
+    -fx-font-weight: bold;
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+
+ <groupId>se.lu.ics</groupId>
+ <artifactId>isp-rektake-vikingexpress</artifactId>
+ <version>1.0-SNAPSHOT</version>
+
+ <properties>
+   <maven.compiler.release>21</maven.compiler.release>  <!-- Fix for JDK 21 warning -->
+   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  <!-- Fix encoding warning -->
+ </properties>
+
+ <dependencies>
+    <!-- JavaFX Base -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-base</artifactId>
+        <version>23.0.2</version>
+        <classifier>mac-aarch64</classifier> <!-- For M3 Macs -->
+    </dependency>
+
+    <!-- JavaFX Controls -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>23.0.2</version>
+        <classifier>mac-aarch64</classifier> <!-- For M3 Macs -->
+    </dependency>
+
+    <!-- JavaFX FXML -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>23.0.2</version>
+        <classifier>mac-aarch64</classifier> <!-- For M3 Macs -->
+    </dependency>
+
+    <!-- JavaFX Graphics -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>23.0.2</version>
+        <classifier>mac-aarch64</classifier> <!-- For M3 Macs -->
+    </dependency>
+
+    <!-- JUnit 5 API -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.9.1</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- JUnit 5 Engine (Required for Running Tests) -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.9.1</version>
+        <scope>test</scope>
+    </dependency>
+
+ </dependencies>
+
+ <build>
+    <plugins>
+        <!-- JavaFX Maven Plugin -->
+        <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
+            <configuration>
+                <mainClass>se.lu.ics.application.App</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+</project>
