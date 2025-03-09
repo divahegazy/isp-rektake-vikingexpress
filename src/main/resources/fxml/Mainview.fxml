@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.StackPane?>
 
 <BorderPane fx:id="contentArea" 
             xmlns="http://javafx.com/javafx/23.0.1" 
@@ -14,14 +15,17 @@
             fx:controller="se.lu.ics.controllers.MainController"
             prefWidth="800" prefHeight="600">
 
+    <!-- Top: Centered label -->
     <top>
-        <VBox spacing="5.0" BorderPane.alignment="CENTER">
+        <StackPane prefHeight="60.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="VikingExpress Fleet Management" style="-fx-font-size:24; -fx-font-weight:bold;"/>
+                <Label text="VikingExpress Fleet Management"
+                       style="-fx-font-size:24; -fx-font-weight:bold;"/>
             </children>
-        </VBox>
+        </StackPane>
     </top>
 
+    <!-- Left: Navigation buttons -->
     <left>
         <VBox spacing="10.0" style="-fx-background-color:#EFF2F7; -fx-padding:10;">
             <children>
@@ -35,6 +39,7 @@
         </VBox>
     </left>
 
+    <!-- Bottom: status bar -->
     <bottom>
         <HBox spacing="10.0" BorderPane.alignment="CENTER_LEFT" style="-fx-padding:5;">
             <children>
@@ -42,4 +47,5 @@
             </children>
         </HBox>
     </bottom>
+
 </BorderPane>
