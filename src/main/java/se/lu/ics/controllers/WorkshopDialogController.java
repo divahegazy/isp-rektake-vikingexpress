@@ -2,26 +2,22 @@ package se.lu.ics.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import se.lu.ics.models.AppModel;
 import se.lu.ics.models.Workshop;
 
 public class WorkshopDialogController {
 
-    @FXML
-    private TextField txtWorkshopName;
-    @FXML
-    private TextField txtWorkshopAddress;
-    @FXML
-    private CheckBox chkInternal;
+    @FXML private TextField txtWorkshopName;
+    @FXML private TextField txtWorkshopAddress;
+    @FXML private CheckBox chkInternal;
 
-    private AppModel appModel;
-    private Workshop workshop; // null => add mode
+    private AppModel model;
+    private Workshop workshop; // null = add mode
 
-    public void setAppModel(AppModel appModel) {
-        this.appModel = appModel;
+    public void setModel(AppModel model) {
+        this.model = model;
     }
 
     public void setWorkshop(Workshop workshop) {
@@ -37,21 +33,21 @@ public class WorkshopDialogController {
     private void handleSave(ActionEvent event) {
         String name = txtWorkshopName.getText();
         String address = txtWorkshopAddress.getText();
-        boolean isInternal = chkInternal.isSelected();
+        boolean internal = chkInternal.isSelected();
 
-        if (name == null || name.isEmpty() ||
-            address == null || address.isEmpty()) {
+        if (name == null || name.isEmpty() || address == null || address.isEmpty()) {
+            // Display error message in a label instead of console.
             System.out.println("Please fill in all fields (workshop).");
             return;
         }
 
         if (workshop == null) {
-            Workshop newWs = new Workshop(name, address, isInternal);
-            appModel.addWorkshop(newWs);
+            Workshop newWorkshop = new Workshop(name, address, internal);
+            model.addWorkshop(newWorkshop);
         } else {
             workshop.setName(name);
             workshop.setAddress(address);
-            workshop.setInternal(isInternal);
+            workshop.setInternal(internal);
         }
         closeDialog();
     }

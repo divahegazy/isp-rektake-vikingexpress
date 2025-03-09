@@ -11,17 +11,13 @@ import se.lu.ics.models.VehicleType;
 
 public class VehicleDialogController {
 
-    @FXML
-    private TextField txtName;
-    @FXML
-    private ComboBox<VehicleType> cmbType;
-    @FXML
-    private TextField txtCapacity;
-    @FXML
-    private Label lblDialogStatus;
+    @FXML private TextField txtName;
+    @FXML private ComboBox<VehicleType> cmbType;
+    @FXML private TextField txtCapacity;
+    @FXML private Label lblDialogStatus;
 
-    private AppModel model;  // set from VehicleController
-    private Vehicle vehicle; // null => add mode
+    private AppModel model;
+    private Vehicle vehicle; // null = add mode
 
     @FXML
     public void initialize() {
@@ -47,13 +43,10 @@ public class VehicleDialogController {
         VehicleType type = cmbType.getValue();
         String capacityStr = txtCapacity.getText();
 
-        if (name == null || name.isEmpty() ||
-            type == null ||
-            capacityStr == null || capacityStr.isEmpty()) {
+        if (name == null || name.isEmpty() || type == null || capacityStr == null || capacityStr.isEmpty()) {
             lblDialogStatus.setText("Please fill in all fields.");
             return;
         }
-
         int capacity;
         try {
             capacity = Integer.parseInt(capacityStr);
@@ -63,11 +56,9 @@ public class VehicleDialogController {
         }
 
         if (vehicle == null) {
-            // Add mode
             Vehicle newVehicle = new Vehicle(name, type, capacity);
-            model.getVehicles().add(newVehicle);
+            model.addVehicle(newVehicle);
         } else {
-            // Edit mode
             vehicle.setName(name);
             vehicle.setType(type);
             vehicle.setCapacity(capacity);

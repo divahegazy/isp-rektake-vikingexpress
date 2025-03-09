@@ -2,11 +2,7 @@ package se.lu.ics.models;
 
 import java.time.LocalDate;
 
-/**
- * Represents a vehicle in the fleet.
- */
 public class Vehicle {
-
     private String name;
     private VehicleType type;
     private int capacity;
@@ -27,60 +23,26 @@ public class Vehicle {
         return "VEH" + Math.abs(hashCode());
     }
 
-    public String getName() {
-        return name;
+    public int getAge() {
+        return LocalDate.now().getYear() - manufactureDate.getYear();
     }
 
-    /** Sets the vehicle's name. */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public VehicleType getType() {
-        return type;
-    }
-
-    /** Sets the vehicle type. */
-    public void setType(VehicleType type) {
-        this.type = type;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    /** Sets capacity (non-negative). */
-    public void setCapacity(int capacity) {
-        this.capacity = Math.max(0, capacity);
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public int getTotalPartsReplaced() {
-        return totalPartsReplaced;
-    }
-
-    public LocalDate getManufactureDate() {
-        return manufactureDate;
-    }
-
-    /** Adds parts replaced. */
+    // Getters and Setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public VehicleType getType() { return type; }
+    public void setType(VehicleType type) { this.type = type; }
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = Math.max(0, capacity); }
+    public String getVin() { return vin; }
+    public int getTotalPartsReplaced() { return totalPartsReplaced; }
+    public LocalDate getManufactureDate() { return manufactureDate; }
     public void replaceParts(int parts) {
-        if (parts > 0) {
-            totalPartsReplaced += parts;
-        }
+        if (parts > 0) totalPartsReplaced += parts;
     }
-
     public boolean isDecommissioned() {
         return totalPartsReplaced > 100;
     }
-
-    public int getAge() {
-        return (manufactureDate != null) ? LocalDate.now().getYear() - manufactureDate.getYear() : 0;
-    }
-
     @Override
     public String toString() {
         return "Vehicle{" +

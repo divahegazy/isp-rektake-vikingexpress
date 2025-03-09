@@ -9,33 +9,23 @@ import se.lu.ics.models.ServiceEntry;
 import se.lu.ics.models.Vehicle;
 import se.lu.ics.models.Workshop;
 
-import java.time.LocalDate;
-
 public class ServiceEntryDialogController {
 
-    @FXML
-    private DatePicker dateField;
-    @FXML
-    private TextField txtDescription;
-    @FXML
-    private TextField txtCost;
-    @FXML
-    private TextField txtDuration;
-    @FXML
-    private ComboBox<Workshop> cmbWorkshop;
-    @FXML
-    private ComboBox<Vehicle> cmbVehicle;
-    @FXML
-    private Label lblDialogStatus;
+    @FXML private DatePicker dateField;
+    @FXML private TextField txtDescription;
+    @FXML private TextField txtCost;
+    @FXML private TextField txtDuration;
+    @FXML private ComboBox<Workshop> cmbWorkshop;
+    @FXML private ComboBox<Vehicle> cmbVehicle;
+    @FXML private Label lblDialogStatus;
 
     private AppModel model;
     private ServiceEntry editableEntry;
 
     public void setModel(AppModel model) {
         this.model = model;
-        // Populate combos
-        cmbWorkshop.getItems().setAll(model.getAllWorkshops());
-        cmbVehicle.getItems().setAll(model.getAllVehicles());
+        cmbWorkshop.getItems().setAll(model.getWorkshops());
+        cmbVehicle.getItems().setAll(model.getVehicles());
     }
 
     public void setServiceEntry(ServiceEntry entry) {
@@ -52,7 +42,6 @@ public class ServiceEntryDialogController {
 
     @FXML
     void handleSave(ActionEvent event) {
-        // Validate
         if (dateField.getValue() == null) {
             lblDialogStatus.setText("Please select a date.");
             return;
@@ -87,7 +76,6 @@ public class ServiceEntryDialogController {
             return;
         }
 
-        // If editing existing entry
         if (editableEntry != null) {
             editableEntry.setDate(dateField.getValue());
             editableEntry.setDescription(desc);
@@ -95,22 +83,12 @@ public class ServiceEntryDialogController {
             editableEntry.setDuration(durVal);
             editableEntry.setWorkshop(w);
             editableEntry.setVehicle(v);
-
             lblDialogStatus.setText("Service Entry updated.");
         } else {
-            // Add new
-            ServiceEntry newEntry = new ServiceEntry(
-                dateField.getValue(),
-                desc,
-                costVal,
-                durVal,
-                w,
-                v
-            );
+            ServiceEntry newEntry = new ServiceEntry(dateField.getValue(), desc, costVal, durVal, w, v);
             model.addServiceEntry(newEntry);
             lblDialogStatus.setText("Service Entry added.");
         }
-
         closeDialog();
     }
 

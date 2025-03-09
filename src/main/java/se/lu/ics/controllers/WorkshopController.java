@@ -12,37 +12,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import se.lu.ics.models.AppModel;
 import se.lu.ics.models.Workshop;
-
 import java.io.IOException;
 
 public class WorkshopController {
 
-    @FXML
-    private TableView<Workshop> tblWorkshops;
-    @FXML
-    private TableColumn<Workshop, String> colWorkshopName;
-    @FXML
-    private TableColumn<Workshop, String> colWorkshopAddress;
-    @FXML
-    private TableColumn<Workshop, String> colWorkshopType;
+    @FXML private TableView<Workshop> tblWorkshops;
+    @FXML private TableColumn<Workshop, String> colWorkshopName;
+    @FXML private TableColumn<Workshop, String> colWorkshopAddress;
+    @FXML private TableColumn<Workshop, String> colWorkshopType;
+    @FXML private Button btnAddWorkshop;
+    @FXML private Button btnEditWorkshop;
+    @FXML private Button btnDeleteWorkshop;
+    @FXML private Button btnRefreshWorkshop;
+    @FXML private Label lblWorkshopStatus;
 
-    @FXML
-    private Button btnAddWorkshop;
-    @FXML
-    private Button btnEditWorkshop;
-    @FXML
-    private Button btnDeleteWorkshop;
-    @FXML
-    private Button btnRefreshWorkshop;
-    @FXML
-    private Label lblWorkshopStatus;
-
-    private AppModel appModel; // set from MainController
-
-    public void setAppModel(AppModel model) {
-        this.appModel = model;
-        refreshTable();
-    }
+    private AppModel model = new AppModel();
 
     @FXML
     public void initialize() {
@@ -52,12 +36,12 @@ public class WorkshopController {
             Workshop w = cellData.getValue();
             return new ReadOnlyObjectWrapper<>(w.isInternal() ? "Internal" : "External");
         });
+        refreshTable();
     }
 
     private void refreshTable() {
-        if (appModel == null) return;
-        tblWorkshops.getItems().setAll(appModel.getWorkshops());
-        lblWorkshopStatus.setText("Workshop count: " + appModel.getWorkshops().size());
+        tblWorkshops.getItems().setAll(model.getWorkshops());
+        lblWorkshopStatus.setText("Workshop count: " + model.getWorkshops().size());
     }
 
     @FXML
@@ -65,16 +49,13 @@ public class WorkshopController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/WorkshopDialog.fxml"));
             Parent dialogRoot = loader.load();
-
             WorkshopDialogController dialogController = loader.getController();
-            dialogController.setAppModel(appModel);
-
+            dialogController.setModel(model);
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(dialogRoot));
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setTitle("Add Workshop");
             dialogStage.showAndWait();
-
             refreshTable();
         } catch (IOException e) {
             lblWorkshopStatus.setText("Error loading Add Workshop dialog: " + e.getMessage());
@@ -92,17 +73,14 @@ public class WorkshopController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/WorkshopDialog.fxml"));
             Parent dialogRoot = loader.load();
-
             WorkshopDialogController dialogController = loader.getController();
-            dialogController.setAppModel(appModel);
+            dialogController.setModel(model);
             dialogController.setWorkshop(selected);
-
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(dialogRoot));
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setTitle("Edit Workshop");
             dialogStage.showAndWait();
-
             refreshTable();
         } catch (IOException e) {
             lblWorkshopStatus.setText("Error loading Edit Workshop dialog: " + e.getMessage());
@@ -117,7 +95,7 @@ public class WorkshopController {
             lblWorkshopStatus.setText("No workshop selected for deletion.");
             return;
         }
-        appModel.getWorkshops().remove(selected);
+        model.removeWorkshop(selected.getName());
         lblWorkshopStatus.setText("Workshop deleted.");
         refreshTable();
     }

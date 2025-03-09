@@ -3,7 +3,6 @@ package se.lu.ics.models;
 import java.util.List;
 
 public class AppModel {
-
     private FleetManager fleetManager;
 
     public AppModel() {
@@ -19,21 +18,13 @@ public class AppModel {
         return fleetManager.getVehicleByVin(vin);
     }
 
+    // Note: removeVehicle expects a VIN (String) according to your FleetManager implementation.
     public boolean removeVehicle(String vin) {
         return fleetManager.removeVehicle(vin);
     }
 
-    public boolean isVehicleExist(String vin) {
-        return fleetManager.isVehicleExist(vin);
-    }
-
-    public List<Vehicle> getAllVehicles() {
-        return fleetManager.getAllVehicles();
-    }
-
-    // New Wrapper Method
     public List<Vehicle> getVehicles() {
-        return getAllVehicles();
+        return fleetManager.getAllVehicles();
     }
 
     // --- Workshop Management ---
@@ -49,17 +40,8 @@ public class AppModel {
         return fleetManager.removeWorkshop(name);
     }
 
-    public boolean isWorkshopExist(String name) {
-        return fleetManager.isWorkshopExist(name);
-    }
-
-    public List<Workshop> getAllWorkshops() {
-        return fleetManager.getAllWorkshops();
-    }
-
-    // New Wrapper Method
     public List<Workshop> getWorkshops() {
-        return getAllWorkshops();
+        return fleetManager.getAllWorkshops();
     }
 
     // --- Service Entry Management ---
@@ -71,18 +53,8 @@ public class AppModel {
         return fleetManager.removeServiceEntry(entry);
     }
 
-    // **This must match the FleetManager method** 
-    public List<ServiceEntry> getServiceEntriesByVehicle(String vin) {
-        return fleetManager.getServiceEntriesByVehicle(vin);
-    }
-
-    public List<ServiceEntry> getAllServiceEntries() {
-        return fleetManager.getAllServiceEntries();
-    }
-
-    // New Wrapper Method
     public List<ServiceEntry> getServiceEntries() {
-        return getAllServiceEntries();
+        return fleetManager.getAllServiceEntries();
     }
 
     // --- Maintenance Schedule Management ---
@@ -94,15 +66,11 @@ public class AppModel {
         return fleetManager.removeMaintenanceSchedule(schedule);
     }
 
-    public List<MaintenanceSchedule> getAllMaintenanceSchedules() {
+    public List<MaintenanceSchedule> getMaintenanceSchedules() {
         return fleetManager.getAllMaintenanceSchedules();
     }
 
-    public List<MaintenanceSchedule> getMaintenanceSchedules() {
-        return getAllMaintenanceSchedules();
-    }
-
-    // --- Cost and Warnings ---
+    // --- Cost Calculations (for Reports, level B) ---
     public double getTotalServiceCost(String vin) {
         return fleetManager.getTotalServiceCost(vin);
     }

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import se.lu.ics.models.AppModel;
@@ -18,42 +19,22 @@ import java.time.format.DateTimeFormatter;
 
 public class MaintenanceScheduleController {
 
-    @FXML
-    private TableView<MaintenanceSchedule> tblMaintenance;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colVin;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colName;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colType;
-    @FXML
-    private TableColumn<MaintenanceSchedule, Integer> colCapacity;
-    @FXML
-    private TableColumn<MaintenanceSchedule, Double> colCost;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colDate;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colWorkshop;
-    @FXML
-    private TableColumn<MaintenanceSchedule, String> colDescription;
+    @FXML private TableView<MaintenanceSchedule> tblMaintenance;
+    @FXML private TableColumn<MaintenanceSchedule, String> colVin;
+    @FXML private TableColumn<MaintenanceSchedule, String> colName;
+    @FXML private TableColumn<MaintenanceSchedule, String> colType;
+    @FXML private TableColumn<MaintenanceSchedule, Integer> colCapacity;
+    @FXML private TableColumn<MaintenanceSchedule, Double> colCost;
+    @FXML private TableColumn<MaintenanceSchedule, String> colDate;
+    @FXML private TableColumn<MaintenanceSchedule, String> colWorkshop;
+    @FXML private TableColumn<MaintenanceSchedule, String> colDescription;
+    @FXML private Button btnAdd;
+    @FXML private Button btnEdit;
+    @FXML private Button btnDelete;
+    @FXML private Button btnRefresh;
+    @FXML private Label lblStatus;
 
-    @FXML
-    private Label lblStatus;
-    @FXML
-    private Button btnAdd;
-    @FXML
-    private Button btnEdit;
-    @FXML
-    private Button btnDelete;
-    @FXML
-    private Button btnRefresh;
-
-    private AppModel appModel; // set from MainController
-
-    public void setAppModel(AppModel model) {
-        this.appModel = model;
-        refreshTable();
-    }
+    private AppModel model = new AppModel();
 
     @FXML
     public void initialize() {
@@ -73,26 +54,22 @@ public class MaintenanceScheduleController {
             Vehicle v = cellData.getValue().getVehicle();
             return new ReadOnlyObjectWrapper<>(v != null ? v.getCapacity() : 0);
         });
-
-        colCost.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCost()));
-
+        colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
         colDate.setCellValueFactory(cellData -> {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return new ReadOnlyObjectWrapper<>(
-                cellData.getValue().getMaintenanceDate().format(fmt)
-            );
+            return new ReadOnlyObjectWrapper<>(cellData.getValue().getMaintenanceDate().format(fmt));
         });
         colWorkshop.setCellValueFactory(cellData -> {
             Workshop w = cellData.getValue().getWorkshop();
             return new ReadOnlyObjectWrapper<>(w != null ? w.getName() : "");
         });
-        colDescription.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDescription()));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        refreshTable();
     }
 
     private void refreshTable() {
-        if (appModel == null) return;
-        tblMaintenance.getItems().setAll(appModel.getMaintenanceSchedules());
-        lblStatus.setText("Total schedules: " + appModel.getMaintenanceSchedules().size());
+        tblMaintenance.getItems().setAll(model.getMaintenanceSchedules());
+        lblStatus.setText("Total schedules: " + model.getMaintenanceSchedules().size());
     }
 
     @FXML
@@ -100,19 +77,16 @@ public class MaintenanceScheduleController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MaintenanceScheduleDialog.fxml"));
             Parent dialogRoot = loader.load();
-
             MaintenanceScheduleDialogController dialogController = loader.getController();
-            dialogController.setModel(appModel);
-
+            dialogController.setModel(model);
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(dialogRoot));
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setTitle("Add Maintenance Schedule");
             dialogStage.showAndWait();
-
             refreshTable();
         } catch (IOException e) {
-            lblStatus.setText("Error loading MaintenanceScheduleDialog: " + e.getMessage());
+            lblStatus.setText("Error loading dialog: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -121,23 +95,20 @@ public class MaintenanceScheduleController {
     void handleEdit(ActionEvent event) {
         MaintenanceSchedule selected = tblMaintenance.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            lblStatus.setText("No schedule selected to edit.");
+            lblStatus.setText("No schedule selected.");
             return;
         }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MaintenanceScheduleDialog.fxml"));
             Parent dialogRoot = loader.load();
-
             MaintenanceScheduleDialogController dialogController = loader.getController();
-            dialogController.setModel(appModel);
+            dialogController.setModel(model);
             dialogController.setSchedule(selected);
-
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(dialogRoot));
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setTitle("Edit Maintenance Schedule");
             dialogStage.showAndWait();
-
             refreshTable();
         } catch (IOException e) {
             lblStatus.setText("Error editing schedule: " + e.getMessage());
@@ -152,8 +123,8 @@ public class MaintenanceScheduleController {
             lblStatus.setText("Select a schedule to delete.");
             return;
         }
-        appModel.getMaintenanceSchedules().remove(selected);
-        lblStatus.setText("Schedule removed.");
+        model.getMaintenanceSchedules().remove(selected);
+        lblStatus.setText("Schedule deleted.");
         refreshTable();
     }
 
