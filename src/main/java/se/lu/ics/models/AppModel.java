@@ -3,48 +3,52 @@ package se.lu.ics.models;
 import java.util.List;
 
 public class AppModel {
-    private FleetManager fleetManager;
+
+    private final FleetManager fleetManager;
 
     public AppModel() {
         this.fleetManager = new FleetManager();
     }
 
-    // --- Vehicle Management ---
-    public boolean addVehicle(Vehicle vehicle) {
-        return fleetManager.addVehicle(vehicle);
+    // Vehicles
+    public boolean addVehicle(Vehicle v) {
+        return fleetManager.addVehicle(v);
+    }
+
+    public boolean removeVehicle(Vehicle v) {
+        return fleetManager.removeVehicle(v.getVin());
     }
 
     public Vehicle getVehicleByVin(String vin) {
         return fleetManager.getVehicleByVin(vin);
     }
 
-    // Note: removeVehicle expects a VIN (String) according to your FleetManager implementation.
-    public boolean removeVehicle(String vin) {
-        return fleetManager.removeVehicle(vin);
-    }
-
-    public List<Vehicle> getVehicles() {
+    public List<Vehicle> getAllVehicles() {
         return fleetManager.getAllVehicles();
     }
 
-    // --- Workshop Management ---
-    public boolean addWorkshop(Workshop workshop) {
-        return fleetManager.addWorkshop(workshop);
+    public boolean isVehicleExist(String vin) {
+        return fleetManager.isVehicleExist(vin);
+    }
+
+    // Workshops
+    public boolean addWorkshop(Workshop ws) {
+        return fleetManager.addWorkshop(ws);
+    }
+
+    public boolean removeWorkshop(Workshop ws) {
+        return fleetManager.removeWorkshop(ws.getName());
     }
 
     public Workshop getWorkshopByName(String name) {
         return fleetManager.getWorkshopByName(name);
     }
 
-    public boolean removeWorkshop(String name) {
-        return fleetManager.removeWorkshop(name);
-    }
-
-    public List<Workshop> getWorkshops() {
+    public List<Workshop> getAllWorkshops() {
         return fleetManager.getAllWorkshops();
     }
 
-    // --- Service Entry Management ---
+    // Service Entries
     public boolean addServiceEntry(ServiceEntry entry) {
         return fleetManager.addServiceEntry(entry);
     }
@@ -53,32 +57,40 @@ public class AppModel {
         return fleetManager.removeServiceEntry(entry);
     }
 
-    public List<ServiceEntry> getServiceEntries() {
+    public List<ServiceEntry> getAllServiceEntries() {
         return fleetManager.getAllServiceEntries();
     }
 
-    // --- Maintenance Schedule Management ---
-    public boolean addMaintenanceSchedule(MaintenanceSchedule schedule) {
-        return fleetManager.addMaintenanceSchedule(schedule);
+    // Maintenance
+    public boolean addMaintenanceSchedule(MaintenanceSchedule ms) {
+        return fleetManager.addMaintenanceSchedule(ms);
     }
 
-    public boolean removeMaintenanceSchedule(MaintenanceSchedule schedule) {
-        return fleetManager.removeMaintenanceSchedule(schedule);
+    public boolean removeMaintenanceSchedule(MaintenanceSchedule ms) {
+        return fleetManager.removeMaintenanceSchedule(ms);
     }
 
-    public List<MaintenanceSchedule> getMaintenanceSchedules() {
+    public List<MaintenanceSchedule> getAllMaintenanceSchedules() {
         return fleetManager.getAllMaintenanceSchedules();
     }
 
-    // --- Cost Calculations (for Reports, level B) ---
+    // Costs
     public double getTotalServiceCost(String vin) {
         return fleetManager.getTotalServiceCost(vin);
+    }
+
+    public double getTotalServiceCostAllVehicles() {
+        // sum all vehicles
+        return fleetManager.getAllVehicles().stream()
+                .mapToDouble(v -> getTotalServiceCost(v.getVin()))
+                .sum();
     }
 
     public double getAverageServiceCost() {
         return fleetManager.getAverageServiceCost();
     }
 
+    // Warnings
     public boolean checkServiceCostWarning(String vin) {
         return fleetManager.checkServiceCostWarning(vin);
     }

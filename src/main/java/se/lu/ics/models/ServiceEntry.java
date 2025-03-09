@@ -20,15 +20,28 @@ public class ServiceEntry {
     }
 
     public LocalDate getDate() { return date; }
+    public void setDate(LocalDate d) { this.date = d; }
+
     public String getDescription() { return description; }
+    public void setDescription(String desc) { this.description = desc; }
+
     public double getCost() { return cost; }
+    public void setCost(double c) { this.cost = c; }
+
     public int getDuration() { return duration; }
+    public void setDuration(int d) { this.duration = d; }
+
     public Workshop getWorkshop() { return workshop; }
+    public void setWorkshop(Workshop w) { this.workshop = w; }
+
     public Vehicle getVehicle() { return vehicle; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public void setDescription(String description) { this.description = description; }
-    public void setCost(double cost) { this.cost = cost; }
-    public void setDuration(int duration) { this.duration = duration; }
-    public void setWorkshop(Workshop workshop) { this.workshop = workshop; }
-    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
+    public void setVehicle(Vehicle v) { this.vehicle = v; }
+
+    public String getVehicleVin() {
+        return vehicle != null ? vehicle.getVin() : "";
+    }
+
+    public String getWorkshopName() {
+        return workshop != null ? workshop.getName() : "";
+    }
 }

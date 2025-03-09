@@ -11,18 +11,17 @@ import se.lu.ics.models.VehicleType;
 
 public class VehicleDialogController {
 
-    @FXML private TextField txtName;
-    @FXML private ComboBox<VehicleType> cmbType;
-    @FXML private TextField txtCapacity;
-    @FXML private Label lblDialogStatus;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private ComboBox<VehicleType> cmbType;
+    @FXML
+    private TextField txtCapacity;
+    @FXML
+    private Label lblDialogStatus;
 
     private AppModel model;
-    private Vehicle vehicle; // null = add mode
-
-    @FXML
-    public void initialize() {
-        cmbType.setItems(FXCollections.observableArrayList(VehicleType.values()));
-    }
+    private Vehicle vehicle; // if null => add mode
 
     public void setModel(AppModel model) {
         this.model = model;
@@ -38,31 +37,40 @@ public class VehicleDialogController {
     }
 
     @FXML
+    public void initialize() {
+        cmbType.setItems(FXCollections.observableArrayList(VehicleType.values()));
+    }
+
+    @FXML
     void handleSave(ActionEvent event) {
         String name = txtName.getText();
-        VehicleType type = cmbType.getValue();
-        String capacityStr = txtCapacity.getText();
+        VehicleType vt = cmbType.getValue();
+        String capStr = txtCapacity.getText();
 
-        if (name == null || name.isEmpty() || type == null || capacityStr == null || capacityStr.isEmpty()) {
-            lblDialogStatus.setText("Please fill in all fields.");
+        if (name == null || name.isEmpty() || vt == null || capStr == null || capStr.isEmpty()) {
+            lblDialogStatus.setText("Please fill in all fields!");
             return;
         }
-        int capacity;
+
+        int cap;
         try {
-            capacity = Integer.parseInt(capacityStr);
+            cap = Integer.parseInt(capStr);
         } catch (NumberFormatException e) {
-            lblDialogStatus.setText("Capacity must be a valid integer.");
+            lblDialogStatus.setText("Capacity must be a valid integer!");
             return;
         }
 
         if (vehicle == null) {
-            Vehicle newVehicle = new Vehicle(name, type, capacity);
-            model.addVehicle(newVehicle);
+            // add mode
+            Vehicle newV = new Vehicle(name, vt, cap);
+            model.addVehicle(newV);
         } else {
+            // edit mode
             vehicle.setName(name);
-            vehicle.setType(type);
-            vehicle.setCapacity(capacity);
+            vehicle.setType(vt);
+            vehicle.setCapacity(cap);
         }
+
         closeDialog();
     }
 
@@ -72,7 +80,7 @@ public class VehicleDialogController {
     }
 
     private void closeDialog() {
-        Stage stage = (Stage) txtName.getScene().getWindow();
-        stage.close();
+        Stage stg = (Stage) txtName.getScene().getWindow();
+        stg.close();
     }
 }

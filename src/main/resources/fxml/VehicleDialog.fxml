@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" 
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.VehicleDialogController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="se.lu.ics.controllers.VehicleDialogController"
+            prefHeight="250.0" prefWidth="400.0">
     <children>
         <GridPane layoutX="20.0" layoutY="20.0" hgap="10" vgap="10">
             <children>
                 <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
                 <Label text="Type:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="cmbType" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
                 <Label text="Capacity:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtCapacity" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
-        <HBox layoutX="20.0" layoutY="200.0" spacing="10.0">
+
+        <HBox layoutX="20.0" layoutY="150.0" spacing="10">
             <children>
-                <Button fx:id="btnSave" onAction="#handleSave" text="Save"/>
-                <Button fx:id="btnCancel" onAction="#handleCancel" text="Cancel"/>
+                <Button text="Save" onAction="#handleSave"/>
+                <Button text="Cancel" onAction="#handleCancel"/>
             </children>
         </HBox>
-        <Label fx:id="lblDialogStatus" layoutX="20.0" layoutY="250.0" text=""/>
+
+        <Label fx:id="lblDialogStatus" layoutX="20.0" layoutY="210.0" text=""/>
     </children>
 </AnchorPane>

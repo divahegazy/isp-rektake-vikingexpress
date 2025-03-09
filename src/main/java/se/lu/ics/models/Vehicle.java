@@ -2,11 +2,14 @@ package se.lu.ics.models;
 
 import java.time.LocalDate;
 
+/**
+ * The Vehicle class
+ */
 public class Vehicle {
     private String name;
     private VehicleType type;
     private int capacity;
-    private String vin;
+    private String vin; 
     private int totalPartsReplaced;
     private LocalDate manufactureDate;
 
@@ -14,7 +17,7 @@ public class Vehicle {
         this.name = name;
         this.type = type;
         this.capacity = Math.max(0, capacity);
-        this.vin = generateVin();
+        this.vin = generateVin(); // auto gen
         this.totalPartsReplaced = 0;
         this.manufactureDate = LocalDate.now();
     }
@@ -23,35 +26,51 @@ public class Vehicle {
         return "VEH" + Math.abs(hashCode());
     }
 
-    public int getAge() {
-        return LocalDate.now().getYear() - manufactureDate.getYear();
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    // Getters and Setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public VehicleType getType() { return type; }
-    public void setType(VehicleType type) { this.type = type; }
-    public int getCapacity() { return capacity; }
-    public void setCapacity(int capacity) { this.capacity = Math.max(0, capacity); }
-    public String getVin() { return vin; }
-    public int getTotalPartsReplaced() { return totalPartsReplaced; }
-    public LocalDate getManufactureDate() { return manufactureDate; }
-    public void replaceParts(int parts) {
-        if (parts > 0) totalPartsReplaced += parts;
+    public VehicleType getType() {
+        return type;
     }
+    public void setType(VehicleType type) {
+        this.type = type;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+    public void setCapacity(int capacity) {
+        this.capacity = Math.max(0, capacity);
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public int getTotalPartsReplaced() {
+        return totalPartsReplaced;
+    }
+
+    public void replaceParts(int parts) {
+        if (parts > 0) {
+            totalPartsReplaced += parts;
+        }
+    }
+
     public boolean isDecommissioned() {
         return totalPartsReplaced > 100;
     }
+
+    public LocalDate getManufactureDate() {
+        return manufactureDate;
+    }
+
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", capacity=" + capacity +
-                ", vin='" + vin + '\'' +
-                ", totalPartsReplaced=" + totalPartsReplaced +
-                ", manufactureDate=" + manufactureDate +
-                '}';
+        return "Vehicle{" + name + ", type=" + type + ", vin=" + vin + "}";
     }
 }

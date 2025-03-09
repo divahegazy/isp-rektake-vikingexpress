@@ -1,73 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" 
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.lu.ics.controllers.MainController">
+<BorderPane fx:id="contentArea" 
+            xmlns="http://javafx.com/javafx/23.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="se.lu.ics.controllers.MainController"
+            prefWidth="800" prefHeight="600">
+
     <top>
-        <VBox alignment="CENTER" spacing="5" BorderPane.alignment="CENTER">
-            <MenuBar prefHeight="28.0" prefWidth="681.0">
-                <menus>
-                    <Menu text="File">
-                        <items>
-                            <MenuItem onAction="#handleExit" text="Exit"/>
-                        </items>
-                    </Menu>
-                    <Menu text="View">
-                        <items>
-                            <MenuItem text="Delete"/>
-                        </items>
-                    </Menu>
-                    <Menu text="Help">
-                        <items>
-                            <MenuItem text="About"/>
-                        </items>
-                    </Menu>
-                </menus>
-            </MenuBar>
-            <Label fx:id="lblTitle" text="VikingExpress Fleet Management" textFill="#081c6b" underline="true">
-                <font>
-                    <Font name="System Bold" size="24.0"/>
-                </font>
-            </Label>
+        <VBox spacing="5.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="VikingExpress Fleet Management" style="-fx-font-size:24; -fx-font-weight:bold;"/>
+            </children>
         </VBox>
     </top>
+
     <left>
-        <VBox spacing="10" alignment="CENTER">
-            <Label fx:id="lblNavigation" text="Navigation" textFill="#081d69">
-                <font>
-                    <Font name="Arial" size="14.0"/>
-                </font>
-                <padding>
-                    <Insets left="20.0" right="20.0" top="20.0" bottom="20.0"/>
-                </padding>
-            </Label>
-            <Button fx:id="btnVehicles" onAction="#handleManageVehicles" text="Manage Vehicles"/>
-            <Button fx:id="btnWorkshops" onAction="#handleManageWorkshops" text="Manage Workshops"/>
-            <Button fx:id="btnServiceHistory" onAction="#handleManageHistory" text="Service History"/>
-            <Button fx:id="btnMaintenance" onAction="#handleManageMaintenanceSchedules" text="Maintenance Schedules"/>
-            <Button fx:id="btnReports" onAction="#handleManageReports" text="Reports"/>
+        <VBox spacing="10.0" style="-fx-background-color:#EFF2F7; -fx-padding:10;">
+            <children>
+                <Button fx:id="btnVehicles" text="Manage Vehicles" onAction="#handleManageVehicles"/>
+                <Button fx:id="btnWorkshops" text="Manage Workshops" onAction="#handleManageWorkshops"/>
+                <Button fx:id="btnServiceHistory" text="Service history" onAction="#handleManageHistory"/>
+                <Button fx:id="btnMaintenance" text="Maintenance Schedules" onAction="#handleManageMaintenanceSchedules"/>
+                <Button fx:id="btnReports" text="Reports" onAction="#handleManageReports"/>
+                <Button text="Exit" onAction="#handleExit" style="-fx-text-fill:red;"/>
+            </children>
         </VBox>
     </left>
-    <center>
-        <BorderPane fx:id="contentArea" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="20.0"/>
-            </padding>
-        </BorderPane>
-    </center>
+
     <bottom>
-        <HBox fx:id="statusBar" spacing="10" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+        <HBox spacing="10.0" BorderPane.alignment="CENTER_LEFT" style="-fx-padding:5;">
             <children>
-                <Label fx:id="lblStatus" text="Status: Ready"/>
+                <Label fx:id="lblStatus" text="Status: ready"/>
             </children>
         </HBox>
     </bottom>

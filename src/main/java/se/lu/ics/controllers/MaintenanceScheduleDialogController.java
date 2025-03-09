@@ -1,38 +1,41 @@
 package se.lu.ics.controllers;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import se.lu.ics.models.AppModel;
-import se.lu.ics.models.MaintenanceSchedule;
-import se.lu.ics.models.Vehicle;
-import se.lu.ics.models.Workshop;
+import se.lu.ics.models.*;
+
 
 public class MaintenanceScheduleDialogController {
 
-    @FXML private DatePicker dateField;
-    @FXML private TextField txtDescription;
-    @FXML private TextField txtCost;
-    @FXML private ComboBox<Workshop> cmbWorkshop;
-    @FXML private ComboBox<Vehicle> cmbVehicle;
-    @FXML private Label lblDialogStatus;
-    @FXML private Button btnSave;
-    @FXML private Button btnCancel;
+    @FXML
+    private DatePicker dateMaintenance;
+    @FXML
+    private TextField txtDescription;
+    @FXML
+    private TextField txtCost;
+    @FXML
+    private ComboBox<Workshop> cmbWorkshop;
+    @FXML
+    private ComboBox<Vehicle> cmbVehicle;
+    @FXML
+    private Label lblDialogStatus;
 
     private AppModel model;
     private MaintenanceSchedule editableSchedule;
 
     public void setModel(AppModel model) {
         this.model = model;
-        cmbWorkshop.getItems().setAll(model.getWorkshops());
-        cmbVehicle.getItems().setAll(model.getVehicles());
+        cmbWorkshop.setItems(FXCollections.observableArrayList(model.getAllWorkshops()));
+        cmbVehicle.setItems(FXCollections.observableArrayList(model.getAllVehicles()));
     }
 
     public void setSchedule(MaintenanceSchedule schedule) {
         this.editableSchedule = schedule;
         if (schedule != null) {
-            dateField.setValue(schedule.getMaintenanceDate());
+            dateMaintenance.setValue(schedule.getMaintenanceDate());
             txtDescription.setText(schedule.getDescription());
             txtCost.setText(String.valueOf(schedule.getCost()));
             cmbWorkshop.setValue(schedule.getWorkshop());
@@ -41,66 +44,64 @@ public class MaintenanceScheduleDialogController {
     }
 
     @FXML
-    public void handleSave(ActionEvent event) {
-        if (dateField.getValue() == null) {
-            lblDialogStatus.setText("Please select a maintenance date.");
+    void handleSave(ActionEvent event) {
+        if (dateMaintenance.getValue() == null) {
+            lblDialogStatus.setText("Please select a date!");
             return;
         }
         String desc = txtDescription.getText();
         if (desc == null || desc.isEmpty()) {
-            lblDialogStatus.setText("Please enter a description.");
+            lblDialogStatus.setText("Description required!");
             return;
         }
         double costVal;
         try {
             costVal = Double.parseDouble(txtCost.getText());
         } catch (NumberFormatException e) {
-            lblDialogStatus.setText("Invalid cost format.");
+            lblDialogStatus.setText("Invalid cost number!");
             return;
         }
         Workshop w = cmbWorkshop.getValue();
         if (w == null) {
-            lblDialogStatus.setText("Please select a workshop.");
+            lblDialogStatus.setText("Select a workshop!");
             return;
         }
         Vehicle v = cmbVehicle.getValue();
         if (v == null) {
-            lblDialogStatus.setText("Please select a vehicle.");
+            lblDialogStatus.setText("Select a vehicle!");
             return;
         }
-        // Check system restriction: Large Truck cannot be serviced internally.
-        if (v.getType() == se.lu.ics.models.VehicleType.LARGE_TRUCK && w.isInternal()) {
-            lblDialogStatus.setText("Large Trucks cannot be serviced at internal workshops.");
+
+        // Large truck cannot be serviced at internal workshop
+        if (v.getType() == VehicleType.LARGE_TRUCK && w.isInternal()) {
+            lblDialogStatus.setText("Large trucks cannot be serviced at an internal workshop!");
             return;
         }
-        if (editableSchedule != null) {
-            editableSchedule.setMaintenanceDate(dateField.getValue());
+
+        if (editableSchedule == null) {
+            // add
+            MaintenanceSchedule ms = new MaintenanceSchedule(dateMaintenance.getValue(), desc, costVal, w, v);
+            model.addMaintenanceSchedule(ms);
+            lblDialogStatus.setText("Schedule added.");
+        } else {
+            // edit
+            editableSchedule.setMaintenanceDate(dateMaintenance.getValue());
             editableSchedule.setDescription(desc);
             editableSchedule.setCost(costVal);
             editableSchedule.setWorkshop(w);
             editableSchedule.setVehicle(v);
             lblDialogStatus.setText("Schedule updated.");
-        } else {
-            MaintenanceSchedule newSched = new MaintenanceSchedule(
-                dateField.getValue(),
-                desc,
-                costVal,
-                w,
-                v
-            );
-            model.addMaintenanceSchedule(newSched);
-            lblDialogStatus.setText("Schedule added.");
         }
         closeDialog();
     }
 
     @FXML
-    public void handleCancel(ActionEvent event) {
+    void handleCancel(ActionEvent event) {
         closeDialog();
     }
 
     private void closeDialog() {
-        Stage stage = (Stage) dateField.getScene().getWindow();
-        stage.close();
+        Stage stg = (Stage) dateMaintenance.getScene().getWindow();
+        stg.close();
     }
 }

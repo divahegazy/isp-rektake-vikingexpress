@@ -1,64 +1,71 @@
 package se.lu.ics.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import se.lu.ics.models.AppModel;
 import se.lu.ics.models.Workshop;
 
 public class WorkshopDialogController {
 
-    @FXML private TextField txtWorkshopName;
-    @FXML private TextField txtWorkshopAddress;
-    @FXML private CheckBox chkInternal;
+    @FXML
+    private TextField txtWorkshopName;
+    @FXML
+    private TextField txtWorkshopAddress;
+    @FXML
+    private CheckBox chkInternal;
+    @FXML
+    private Label lblDialogStatus;
 
     private AppModel model;
-    private Workshop workshop; // null = add mode
+    private Workshop workshop; // null => add mode
 
     public void setModel(AppModel model) {
         this.model = model;
     }
 
-    public void setWorkshop(Workshop workshop) {
-        this.workshop = workshop;
-        if (workshop != null) {
-            txtWorkshopName.setText(workshop.getName());
-            txtWorkshopAddress.setText(workshop.getAddress());
-            chkInternal.setSelected(workshop.isInternal());
+    public void setWorkshop(Workshop w) {
+        this.workshop = w;
+        if (w != null) {
+            txtWorkshopName.setText(w.getName());
+            txtWorkshopAddress.setText(w.getAddress());
+            chkInternal.setSelected(w.isInternal());
         }
     }
 
     @FXML
-    private void handleSave(ActionEvent event) {
+    void handleSave(ActionEvent event) {
         String name = txtWorkshopName.getText();
-        String address = txtWorkshopAddress.getText();
-        boolean internal = chkInternal.isSelected();
+        String addr = txtWorkshopAddress.getText();
+        boolean isInt = chkInternal.isSelected();
 
-        if (name == null || name.isEmpty() || address == null || address.isEmpty()) {
-            // Display error message in a label instead of console.
-            System.out.println("Please fill in all fields (workshop).");
+        if (name == null || name.isEmpty() || addr == null || addr.isEmpty()) {
+            lblDialogStatus.setText("Please fill in all fields!");
             return;
         }
 
         if (workshop == null) {
-            Workshop newWorkshop = new Workshop(name, address, internal);
-            model.addWorkshop(newWorkshop);
+            // add
+            Workshop newW = new Workshop(name, addr, isInt);
+            model.addWorkshop(newW);
         } else {
+            // edit
             workshop.setName(name);
-            workshop.setAddress(address);
-            workshop.setInternal(internal);
+            workshop.setAddress(addr);
+            workshop.setInternal(isInt);
         }
+
         closeDialog();
     }
 
     @FXML
-    private void handleCancel(ActionEvent event) {
+    void handleCancel(ActionEvent event) {
         closeDialog();
     }
 
     private void closeDialog() {
-        Stage stage = (Stage) txtWorkshopName.getScene().getWindow();
-        stage.close();
+        Stage stg = (Stage) txtWorkshopName.getScene().getWindow();
+        stg.close();
     }
 }
