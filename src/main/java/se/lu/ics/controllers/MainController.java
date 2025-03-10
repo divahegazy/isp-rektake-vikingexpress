@@ -11,9 +11,7 @@ import se.lu.ics.models.AppModel;
 
 import java.io.IOException;
 
-/**
- * MainController - loads subviews into contentArea
- */
+
 public class MainController {
 
     @FXML
@@ -77,10 +75,8 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
 
-            // If the sub-controller has a setModel(AppModel) method, call it
             Object subController = loader.getController();
             if (subController != null) {
-                // Use reflection or simply do an instanceof check:
                 if (subController instanceof VehicleController) {
                     ((VehicleController) subController).setModel(model);
                 } else if (subController instanceof WorkshopController) {

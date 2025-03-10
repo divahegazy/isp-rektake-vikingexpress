@@ -16,9 +16,8 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
         Parent root = loader.load();
 
-        // Get the main controller
         MainController mainController = loader.getController();
-        // Create a single shared AppModel instance
+        //single shared AppModel instance makes it possible to share data between controllers without it diseappering when switching subviews
         AppModel model = new AppModel();
         mainController.setModel(model);
 

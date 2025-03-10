@@ -39,7 +39,7 @@ public class MaintenanceScheduleController {
         refreshTable();
     }
 
-    @FXML
+    @FXML // wrapped in a try-catch block
     public void initialize() {
         colVehicle.setCellValueFactory(ms -> {
             Vehicle v = ms.getValue().getVehicle();

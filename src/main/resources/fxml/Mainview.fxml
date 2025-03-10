@@ -15,7 +15,6 @@
             fx:controller="se.lu.ics.controllers.MainController"
             prefWidth="800" prefHeight="600">
 
-    <!-- Top: Centered label -->
     <top>
         <StackPane prefHeight="60.0" BorderPane.alignment="CENTER">
             <children>
@@ -25,7 +24,6 @@
         </StackPane>
     </top>
 
-    <!-- Left: Navigation buttons -->
     <left>
         <VBox spacing="10.0" style="-fx-background-color:#EFF2F7; -fx-padding:10;">
             <children>
@@ -39,7 +37,6 @@
         </VBox>
     </left>
 
-    <!-- Bottom: status bar -->
     <bottom>
         <HBox spacing="10.0" BorderPane.alignment="CENTER_LEFT" style="-fx-padding:5;">
             <children>
